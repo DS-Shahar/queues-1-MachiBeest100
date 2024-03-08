@@ -139,7 +139,219 @@ public static void Q9(Queue<Integer> queue) {//O(n^2)
     }
 
 
-  
 
+
+
+  //17
+	public static Time hefresh(Queue <Time> q) {
+		Time first = q.remove();
+		Time last = first;
+		while(!q.isEmpty()) {
+			last = q.remove();
+		}
+		int secHefresh = last.timeSec() - first.timeSec();
+		int HH = secHefresh /(60*60);
+		int MH = (secHefresh %(60*60))/60;
+		int SH = (secHefresh %(60*60))%60;
+		Time timeHefresh = new Time(HH,MH,SH);
+		return timeHefresh;
+	}
+  public class Time {
+
+	private int hour;
+	private int minute;
+	private int second;
+
+	
+	public  Time(int hour, int minute, int second){
+		this.hour = hour;
+		this.minute = minute;
+		this.second = second;
+	}
+
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
+	public int getMinute() {
+		return minute;
+	}
+
+	public void setMinute(int minute) {
+		this.minute = minute;
+	}
+
+	public int getSecond() {
+		return second;
+	}
+
+	public void setSecond(int second) {
+		this.second = second;
+	}
+	
+	public int timeSec() {
+		return this.hour * 60 * 60 + this.minute*60 + this.second;
+	}
+
+	@Override
+	public String toString() {
+		return "Time [hour=" + hour + ", minute=" + minute + ", second=" + second + "]";
+	}
+}
+
+
+
+
+  //Q18
+
+  public static Queue<Ball> fill(String[] a, int n){
+		int color;
+		int size;
+		Queue <Ball> q = new Queue();
+		Ball b;
+		for(int i = 0; i<n; i++) {
+			color = (int)(Math.random() * ((a.length-1) + 1));
+			size = (int)(Math.random() * ((1) + 1));
+			if(size == 0) {
+				b = new Ball(a[color], true);
+			}
+			else {
+				b = new Ball(a[color], false);
+			}
+			q.insert(b);
+		}
+		return q;
+	}
+	
+	public static int find(Queue<Ball> q, String letter) {
+		int index = 0;
+		while(!q.isEmpty()) {
+			if(q.remove().toString().equals(letter)) {
+				return index;
+			}
+			index++;
+		}
+		return index;
+	}
+	
+	public static Scanner reader = new Scanner(System.in);
+	public static void main(String[] args) {
+		String[] colors = {"Red", "Orange", "Yellow", "Gold", "Blue", "Indigo", "Violet"};
+		Queue <Ball> balls = fill(colors, 20);
+		System.out.println(balls);
+		
+		int indexG = find(balls, "G");
+				
+		boolean correct = false;
+		int count = 1;
+		int ball;
+		while(!correct) {
+			System.out.println("whats the index of the first golden ball?");
+			ball = reader.nextInt();
+			if(indexG == ball) {
+				System.out.println("you made it with " + count + " guesses!");
+				correct = true;
+			}
+			count++;
+		}
+		
+		
+	}
+}
+public class Ball {
+
+	private String color;
+	private boolean big;
+	
+	public Ball(String color, boolean big) {
+		this.color = color;
+		this.big = big;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public boolean isBig() {
+		return big;
+	}
+
+	public void setBig(boolean big) {
+		this.big = big;
+	}
+	
+	public String toString() {
+		return "" + color.charAt(0);
+	}
+
+
+  //Q19
+  public static void timeJobs(Queue<Job> jobs, int t) {
+		int sum = jobs.head().getSec();
+		while(sum <= t && !jobs.isEmpty()) {
+			System.out.println(jobs.remove().toString());
+			sum += jobs.head().getSec();
+			
+		}
+		
+	}
+}
+
+public class Job {
+    private String jobCode;
+    private int sec; 
+
+    public Job(String jobCode, int sec) { 
+        this.jobCode = jobCode;
+        this.sec = sec;
+    }
+
+    public String getJobCode() {
+        return jobCode;
+    }
+
+    public int getSec() { 
+        return sec;
+    }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "jobCode='" + jobCode + '\'' +
+                ", sec=" + sec + 
+                '}';
+    }
+
+  //Q20
+  public static Queue<Integer> sort(Queue <Integer> q1, Queue <Integer> q2){
+		Queue <Integer> q3 = new Queue();
+		while(!q1.isEmpty() && !q2.isEmpty()) {
+			if(q1.head() >= q2.head()) {
+				q3.insert(q2.remove());
+			}
+			else {
+				q3.insert(q1.remove());
+			}
+		}
+		while(!q1.isEmpty()) {
+			q3.insert(q1.remove());
+		}
+		while(!q2.isEmpty()) {
+			q3.insert(q2.remove());
+		}
+		while(!q3.isEmpty()) {
+			q1.insert(q3.remove());
+		}
+		return q1;
+	}
+}
   
 }
